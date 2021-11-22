@@ -1,0 +1,11 @@
+body{
+
+}
+.container-fluid{
+    background: url("https://t4.ftcdn.net/jpg/01/41/44/41/360_F_141444136_xgRBZPlCkv1FEyzcAfK1iH6JzLLWxIfl.jpg") no-repeat center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

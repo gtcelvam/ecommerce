@@ -1,11 +1,13 @@
 import React,{useState} from 'react';
+import {Link} from "react-router-dom";
 import 'styled-components';
 import {Search, ShoppingCartOutlined} from "@material-ui/icons";
 import Badge from "@material-ui/core/Badge"
 import styled from 'styled-components';
 
 
-function NavBar() {
+function NavBar(props) {
+    const {name} = props;
     /* Styled Components */
     var Nav = styled.nav``
     var NavWrapper = styled.div`
@@ -62,12 +64,16 @@ function NavBar() {
     align-items:center;
     justify-content:flex-end;
     `;
+    var Admin = styled.p`font-size:1rem;margin:0`;
+    var linkStyle = {textDecoration:"none",color:'black'}
     var MenuItem = styled.div`
         margin:0 1vw;
         cursor:pointer;
     `;
     /* Right Ends Here */
-
+    var user = ()=>{
+        
+    }
     /* Styled Components Ends Here */
     return (
         <div>
@@ -86,8 +92,16 @@ function NavBar() {
                     </NavLogo>
                 </NavCenter>
                 <NavRight>
-                <MenuItem>Login</MenuItem>
-                <MenuItem>Register</MenuItem>
+                { name ? 
+                <React.Fragment>
+                <Admin>Welcome {name.toUpperCase()}</Admin>
+                <MenuItem onClick={()=>{window.location = "/"}}>Logout</MenuItem>
+                </React.Fragment> : 
+                <React.Fragment>
+                <Link to="/login" style={linkStyle}><MenuItem>Login</MenuItem></Link>
+                <Link to="/login" style={linkStyle}><MenuItem>Register</MenuItem></Link>
+                </React.Fragment>
+                }
                 <MenuItem>
                     <Badge badgeContent={4} color="primary">
                     <ShoppingCartOutlined color="action" />
