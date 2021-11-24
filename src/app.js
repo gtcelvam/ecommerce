@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from 'react';
-import axios from 'axios';
 import NavBar from './components/Navbar';
 import Annoucement from './components/Annoucement';
 import Slider from './components/Slider';
+import Category from './components/Category';
 
 
 function App(props) {
@@ -17,6 +17,7 @@ function App(props) {
             <Annoucement/>
             <NavBar name={user.name ? user.name : null}/>
             <Slider/>
+            <Category/>
         </div>
     )
 }

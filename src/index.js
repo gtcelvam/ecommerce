@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
 import App from './app';
 import Login from './pages/login';
+import Register from './pages/register';
 import './css/index.css'
 
 function Index() {
@@ -17,6 +18,9 @@ function Index() {
        </Routes>
        <Routes>
         <Route path="/login" element={<Login userData={userData}/>} />
+       </Routes>
+       <Routes>
+        <Route path="/register" element={<Register/>} />
        </Routes>
        </Router>
     );

@@ -67,9 +67,7 @@ var Container = styled.div`
         }
     `
 
-function Login(props) {
-    const {userData} = props;
-    const [data, setData] = useState({});
+function Register() {
     const [alertData,setAlert] = useState({
        alertType : '',
        message : '' 
@@ -78,17 +76,12 @@ function Login(props) {
         var alertContainer = document.querySelector(".alert-container");
         alertData.alertType !== '' ? alertContainer.style.display = 'block' : alertContainer.style.display = "none";
     }, [alertData.alertType])
-    useEffect(()=>{
-        userData(data);
-    },[data])
-    
-
     /* Function Part */
     var alertFunc = (message)=>{
         var success = ()=>{
             setAlert({
                 alertType : 'alert alert-success',
-                message : 'Sucessfully Logged In'
+                message : 'Sucessfully Registerd.Redirecting to login..'
             })
         }
         var failure = ()=>{
@@ -106,39 +99,40 @@ function Login(props) {
         },3000)
     }
     var navigate = useNavigate();
-    var handleLogin = ()=>{
+    var handleRegister = ()=>{
+        var form = document.getElementById('register-form');
         var name = document.getElementById("name").value;
+        var email = document.getElementById("email");
         var password = document.getElementById("password").value;
-        if(name === "" || password === ''){
+        var filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(name === "" || password === '' || email.value === ''){
             alert("No Value should be Empty!");
-        }else{
-            var loginData = {
-                name : name,
-                password : password
-            }
-            axios.post('https://thselvan1.herokuapp.com/api/auth/login',loginData).then(res=>{
-                try {
-                    alertFunc(true);
-                    setData(res.data);
-                    navigate('/');
-                } catch (error) {
-                    
-                }
-            })
+            return;
         }
+        if (!filter.test(email.value)) {
+            alert('Please provide a valid email address');
+            email.focus();
+            return;
+        }
+        var registerData = {
+            name : name,
+            email:email.value,
+            password : password
+        }
+        axios.post('https://thselvan1.herokuapp.com/api/auth/register',registerData).then(res=>{
+            try {
+                alertFunc(true);
+                var inputTags = form.querySelectorAll('input');
+                inputTags.forEach(item=>{
+                    item.value = "";
+                })
+                navigate('/login');
+            } catch (error) {
+                console.log(error);
+            }
+        })
         
     }
-
-
-
-    /* var getAllUser = ()=>{
-        axios.get('https://thselvan1.herokuapp.com/api/user',{headers: {
-            'Content-Type': 'application/json',
-            'token' : `bearer ${data.accesstoken}`
-            }}).then(res=>{
-            console.log(res.data);
-        });
-    } */
     /* Function Part End Here*/
     return (
         <div className='container-fluid'>
@@ -154,12 +148,13 @@ function Login(props) {
                     </LogoContainer>
                 </FormHead>
                 <FormBody>
-                <form method='POST'>
+                <form method='POST' id='register-form'>
                     <Container>
-                    <Label><span>Username</span><Input id='name'/></Label>
-                    <Label><span>Password</span><Input id='password' type='password'/></Label>
+                    <Label><span>Username</span><Input id='name' required/></Label>
+                    <Label><span>Email</span><Input id='email' type='email' required/></Label>
+                    <Label><span>Password</span><Input id='password' type='password' required/></Label>
                     <div>
-                    <Button variant="outlined" color="primary" onClick={handleLogin}>Log in</Button>
+                    <Button variant="contained" color="primary" onClick={handleRegister}>Register</Button>
                     </div>
                     </Container>
                 </form>
@@ -169,4 +164,4 @@ function Login(props) {
     )
 }
 
-export default Login
+export default Register

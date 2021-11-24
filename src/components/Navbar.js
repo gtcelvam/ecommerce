@@ -16,6 +16,7 @@ function NavBar(props) {
         justify-content:space-around;
         align-items:center;
         padding: 0.5vw 1vw; 
+        overflow:hidden;
     `
     /* Left */
     var NavLeft = styled.div`
@@ -99,7 +100,7 @@ function NavBar(props) {
                 </React.Fragment> : 
                 <React.Fragment>
                 <Link to="/login" style={linkStyle}><MenuItem>Login</MenuItem></Link>
-                <Link to="/login" style={linkStyle}><MenuItem>Register</MenuItem></Link>
+                <Link to="/register" style={linkStyle}><MenuItem>Register</MenuItem></Link>
                 </React.Fragment>
                 }
                 <MenuItem>

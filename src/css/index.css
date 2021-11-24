@@ -5,4 +5,5 @@
 }
 body{
     font-family: QuattrocentoSans,sans-serif;
+    scroll-behavior: smooth;
 }
