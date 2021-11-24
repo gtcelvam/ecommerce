@@ -3,7 +3,7 @@ import Styled from 'styled-components';
 
 var Container = Styled.div`
     height:3vh;
-    background-color:teal;
+    background-color:#01BEDC;
     color:white;
     display:flex;
     justify-content:center;
