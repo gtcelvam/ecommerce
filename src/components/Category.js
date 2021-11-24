@@ -56,11 +56,9 @@ function Category() {
     useEffect(() => {
         axios.get('https://thselvan1.herokuapp.com/api/category').then(res=>{
             setCategory(res.data);
-            console.log(category);
         })
     }, []);
     var result = category.map(item=>{
-        console.log(item);
         return <CategoryContianer key={item._id}>
                 <Image src={item.img}/>
                 <Info>

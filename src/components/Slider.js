@@ -131,7 +131,7 @@ function Slider() {
                     <Button>Show Now</Button>
                 </InfoContainer>
                 <ImgContainer>
-                 <Img src='https://lh3.googleusercontent.com/proxy/WG2OiHTsnbsKY7hQBvHd-WBWXy5plS_B9r-sanmi-yf5QG2MzmBU4svZRH9KckB1u2PePalfF1j8mj5avoVJeqqaiS-aeIn9Xai82NQzSeDnDNrcrPABNUPx'/>
+                 <Img src='https://lh3.googleusercontent.com/proxy/e1BwQ2tn9oNszfU5oyLGodezCOAxhDpiUohz-TauTdxiHlCZZH2EPpE_jdRC_RBLvy5x8tOeQIrG1C9xzJoQza2o7HSetbyTCJruDWvq2B9OSzJTPiWvV7DdQj9jfnCtdtl0d2VGW1-qknr3xPbMiKldz9fLfW0jvoa-MQ'/>
                 </ImgContainer>
                 </Slide>
             </Wrapper>
