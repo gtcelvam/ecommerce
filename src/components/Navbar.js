@@ -1,6 +1,5 @@
 import React,{useState} from 'react';
 import {Link} from "react-router-dom";
-import 'styled-components';
 import {Search, ShoppingCartOutlined} from "@material-ui/icons";
 import Badge from "@material-ui/core/Badge"
 import styled from 'styled-components';

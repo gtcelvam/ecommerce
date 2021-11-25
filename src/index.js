@@ -4,6 +4,8 @@ import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
 import App from './app';
 import Login from './pages/login';
 import Register from './pages/register';
+import ProductList from './pages/productsList';
+import Product from './pages/product';
 import './css/index.css'
 
 function Index() {
@@ -21,6 +23,12 @@ function Index() {
        </Routes>
        <Routes>
         <Route path="/register" element={<Register/>} />
+       </Routes>
+       <Routes>
+        <Route path="/productlist" element={<ProductList/>} />
+       </Routes>
+       <Routes>
+        <Route path="/product/:id" element={<Product/>} />
        </Routes>
        </Router>
     );

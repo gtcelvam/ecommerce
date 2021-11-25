@@ -1,4 +1,5 @@
 import React,{useEffect,useState} from 'react';
+import {Link} from "react-router-dom";
 import Styled from 'styled-components';
 import {ShoppingCartOutlined,SearchOutlined,FavoriteBorderOutlined} from "@material-ui/icons";
 import axios from 'axios';
@@ -84,7 +85,9 @@ function Products() {
             <Img src={element.img}/>
             <Info>
                 <Icon><ShoppingCartOutlined/></Icon>
-                <Icon><SearchOutlined/> </Icon>
+                <Link to={`/product/${element._id}`} style={{color:'black',textDecoration:'none'}}>
+                <Icon><SearchOutlined/></Icon>
+                </Link>
                 <Icon><FavoriteBorderOutlined/></Icon>
             </Info>
         </Product>

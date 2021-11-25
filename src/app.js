@@ -3,7 +3,7 @@ import NavBar from './components/Navbar';
 import Annoucement from './components/Annoucement';
 import Slider from './components/Slider';
 import Category from './components/Category';
-import Products from './components/Products';
+import Product from './components/Products';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 
@@ -21,7 +21,7 @@ function App(props) {
             <NavBar name={user.name ? user.name : null}/>
             <Slider/>
             <Category/>
-            <Products/>
+            <Product/>
             <Newsletter/>
             <Footer/>
         </div>
