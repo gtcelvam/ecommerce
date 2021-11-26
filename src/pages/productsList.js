@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
+import axios from 'axios';
 import Styled from 'styled-components';
 import Navbar from "../components/Navbar";
 import Annoucement from "../components/Annoucement";
@@ -31,10 +32,14 @@ var Select = Styled.select`
 `
 var Option = Styled.option``;
 
-function Product() {
+function Product({data}) {
+    const [user,setUser] = useState([]);
+    useEffect(()=>{
+        setUser(data);
+    },[]);
     return (
         <div>
-            <Navbar/>
+            <Navbar name={user.name ? user.name : null}/>
             <Annoucement/>
             <Title>Products List</Title>
             <FilterContainer>

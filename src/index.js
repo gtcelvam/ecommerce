@@ -6,6 +6,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import ProductList from './pages/productsList';
 import Product from './pages/product';
+import Cart from './pages/cart';
 import './css/index.css'
 
 function Index() {
@@ -25,10 +26,13 @@ function Index() {
         <Route path="/register" element={<Register/>} />
        </Routes>
        <Routes>
-        <Route path="/productlist" element={<ProductList/>} />
+        <Route path="/productlist" element={<ProductList data={data}/>} />
        </Routes>
        <Routes>
-        <Route path="/product/:id" element={<Product/>} />
+        <Route path="/product/:id" element={<Product data={data}/>} />
+       </Routes>
+       <Routes>
+           <Route path="/cart" element={<Cart data={data}/>}/>
        </Routes>
        </Router>
     );

@@ -49,6 +49,7 @@ function NavBar(props) {
     margin:auto;
     width:5vw;
     height:auto;
+    cursor:pointer;
     `
     var NavImage = styled.img`
         width:100%;
@@ -87,9 +88,11 @@ function NavBar(props) {
                     </SearchContainer>
                 </NavLeft>
                 <NavCenter>
+                    <Link to='/'>
                     <NavLogo>
                     <NavImage src='https://logodix.com/logo/1762514.png'/>
                     </NavLogo>
+                    </Link>
                 </NavCenter>
                 <NavRight>
                 { name ? 
@@ -102,11 +105,11 @@ function NavBar(props) {
                 <Link to="/register" style={linkStyle}><MenuItem>Register</MenuItem></Link>
                 </React.Fragment>
                 }
-                <MenuItem>
-                    <Badge badgeContent={4} color="primary">
-                    <ShoppingCartOutlined color="action" />
-                    </Badge>
-                </MenuItem>
+                <Link to="/cart">
+                    <MenuItem>
+                    <Badge badgeContent={4} color="primary"><ShoppingCartOutlined color="action" /></Badge>
+                    </MenuItem>
+                </Link>
                 </NavRight>
                 </NavWrapper>
             </Nav>
