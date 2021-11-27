@@ -121,6 +121,7 @@ function Login(props) {
                     alertFunc(true);
                     setData(res.data);
                     navigate('/');
+                    sessionStorage.setItem('user',JSON.stringify(res.data));
                 } catch (error) {
                     
                 }

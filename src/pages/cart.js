@@ -7,6 +7,7 @@ import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import { Add, Remove } from '@material-ui/icons';
 import { CardContent } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 var Container = Styled.div``;
 
@@ -151,17 +152,16 @@ var SummaryButton = Styled.button`
 `;
 
 function Cart({data}) {
-    const [user,setUser] = useState([]);
+    const [user,setUser] = useState({});
     const [cart,setCart] = useState([]);
-    const [product,setProduct] = useState([])
+    const [product,setProduct] = useState([]);
+    useEffect(async () => {
+        var userData = JSON.parse(sessionStorage.getItem('user'));
+        await setUser(userData);
+    }, []);
     useEffect(async ()=>{
-        setUser(data);
-        let head = {
-            headers: {
-                token : 'Bearer ' + user.accesstoken
-              }
-        }
-        await axios.get(`https://thselvan1.herokuapp.com/api/cart/find/${user._id}`).then(res=>{
+        if(user !== null){
+            await axios.get(`https://thselvan1.herokuapp.com/api/cart/find/${user._id}`).then(res=>{
             var products = res.data;
             if(products){
                 var productId = products.products[0].productId;
@@ -172,78 +172,82 @@ function Cart({data}) {
                 });
             }
         });
-    },[]);
+        }
+    },[user]);
 
     useEffect(async ()=>{
+        if(cart !== null){
             var url = `https://thselvan1.herokuapp.com/api/product/${cart.id}`;
             await axios.get(url).then((res)=>{
                 setProduct(res.data);
-                console.log(res.data);
             })  
+        }
     },[cart]);
+
+    var main = user !== null ? (<Wrapper>
+        <Title>Your Cart</Title>
+        <Top>
+            <TopButton>Continue Shopping</TopButton>
+            <TopTexts>
+                <TopText>Shopping Bag({product.length})</TopText>
+                <TopText>Your Wishlist(0)</TopText>
+            </TopTexts>
+            <TopButton type='filled'>Checkout Now</TopButton>
+        </Top>
+        <Bottom>
+            <Info>
+                <Product>
+                <ProductDetail>
+                    <Image src={product.img}/>
+                    <Detail>
+                        <ProductName><b>Title :</b> {product.title}</ProductName>
+                        <ProductId><b>ID :</b> {product._id}</ProductId>
+                        <ProductColor color={product.color}/>
+                        <ProductSize><b>Size :</b> XL</ProductSize>
+                    </Detail>
+                </ProductDetail>
+                <PriceDetail>
+                    <PriceAmountContainer>
+                        <Remove/>
+                        <ProductAmount>{cart.count}</ProductAmount>
+                        <Add/>
+                    </PriceAmountContainer>
+                    <ProductPrice>
+                    &#8377;  {product.price}
+                    </ProductPrice>
+                </PriceDetail>
+                </Product>
+                <Hr/>
+                {/* --------- */}
+            </Info>
+            <Summary>
+                <SummaryTitle>Order Summary</SummaryTitle>
+                <SummaryItem>
+                    <SummaryItemText>Subtotal</SummaryItemText>
+                    <SummaryItemPrice>&#8377; {product.price}</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem>
+                    <SummaryItemText>Estimated Shipping</SummaryItemText>
+                    <SummaryItemPrice>&#8377; 55.90</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem>
+                    <SummaryItemText>Shipping Discount</SummaryItemText>
+                    <SummaryItemPrice>&#8377; -45.90</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem type='total'>
+                    <SummaryItemText>Total</SummaryItemText>
+                    <SummaryItemPrice>&#8377; {product.price + 50}</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryButton>CheckOut Now</SummaryButton>
+            </Summary>
+        </Bottom>
+    </Wrapper>) : (<Wrapper><p style={{textAlign:"center"}}>You can <Link to='/login'>Login here</Link> to see your products</p></Wrapper>);
 
     return (
         <Container>
-            <Navbar name={user.name ? user.name : null}/>
+            <Navbar/>
             <Annoucement/>
-            <Wrapper>
-                <Title>Your Cart</Title>
-                <Top>
-                    <TopButton>Continue Shopping</TopButton>
-                    <TopTexts>
-                        <TopText>Shopping Bag({product.length})</TopText>
-                        <TopText>Your Wishlist(0)</TopText>
-                    </TopTexts>
-                    <TopButton type='filled'>Checkout Now</TopButton>
-                </Top>
-                <Bottom>
-                    <Info>
-                        <Product>
-                        <ProductDetail>
-                            <Image src={product.img}/>
-                            <Detail>
-                                <ProductName><b>Title :</b> {product.title}</ProductName>
-                                <ProductId><b>ID :</b> {product._id}</ProductId>
-                                <ProductColor color={product.color}/>
-                                <ProductSize><b>Size :</b> XL</ProductSize>
-                            </Detail>
-                        </ProductDetail>
-                        <PriceDetail>
-                            <PriceAmountContainer>
-                                <Remove/>
-                                <ProductAmount>{cart.count}</ProductAmount>
-                                <Add/>
-                            </PriceAmountContainer>
-                            <ProductPrice>
-                            &#8377;  {product.price}
-                            </ProductPrice>
-                        </PriceDetail>
-                        </Product>
-                        <Hr/>
-                        {/* --------- */}
-                    </Info>
-                    <Summary>
-                        <SummaryTitle>Order Summary</SummaryTitle>
-                        <SummaryItem>
-                            <SummaryItemText>Subtotal</SummaryItemText>
-                            <SummaryItemPrice>&#8377; {product.price}</SummaryItemPrice>
-                        </SummaryItem>
-                        <SummaryItem>
-                            <SummaryItemText>Estimated Shipping</SummaryItemText>
-                            <SummaryItemPrice>&#8377; 55.90</SummaryItemPrice>
-                        </SummaryItem>
-                        <SummaryItem>
-                            <SummaryItemText>Shipping Discount</SummaryItemText>
-                            <SummaryItemPrice>&#8377; -45.90</SummaryItemPrice>
-                        </SummaryItem>
-                        <SummaryItem type='total'>
-                            <SummaryItemText>Total</SummaryItemText>
-                            <SummaryItemPrice>&#8377; {product.price + 50}</SummaryItemPrice>
-                        </SummaryItem>
-                        <SummaryButton>CheckOut Now</SummaryButton>
-                    </Summary>
-                </Bottom>
-            </Wrapper>
+            {main}
             <Newsletter/>
             <Footer/>
         </Container>

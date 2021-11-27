@@ -34,12 +34,13 @@ var Option = Styled.option``;
 
 function Product({data}) {
     const [user,setUser] = useState([]);
-    useEffect(()=>{
-        setUser(data);
-    },[]);
+    useEffect(async () => {
+        var userData = JSON.parse(sessionStorage.getItem('user'));
+        await setUser(userData);
+    }, []);
     return (
         <div>
-            <Navbar name={user.name ? user.name : null}/>
+            <Navbar/>
             <Annoucement/>
             <Title>Products List</Title>
             <FilterContainer>

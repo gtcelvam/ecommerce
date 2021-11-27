@@ -115,12 +115,16 @@ function Product(props) {
     const [data, setData] = useState([]);
     const [amount,setAmount] = useState(1);
     var productLink = useParams();
-    useEffect(async ()=>{
-        setUser(props.data);
+    useEffect(async () => {
+        var userData = JSON.parse(sessionStorage.getItem('user'));
+        await setUser(userData);
         var url = `https://thselvan1.herokuapp.com/api/product/${productLink.id}`;
         await axios.get(url).then((res)=>{
             setData(res.data);
-        })
+        });
+    }, []);
+    useEffect(async ()=>{
+        
     },[]);
 
     var handleClick = (item)=>{
@@ -154,7 +158,7 @@ function Product(props) {
 
     return (
         <Container>
-            <Navbar name={user.name ? user.name : null}/>
+            <Navbar/>
             <Annoucement/>
             <Wrapper>
             <ImgContainer>
