@@ -144,7 +144,7 @@ function Login(props) {
     return (
         <div className='container-fluid'>
             <AlertContainer className='alert-container'>
-                <div class={alertData.alertType} role="alert">
+                <div className={alertData.alertType} role="alert">
                 {alertData.message}
                 </div>
             </AlertContainer>

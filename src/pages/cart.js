@@ -155,6 +155,7 @@ function Cart({data}) {
     const [user,setUser] = useState({});
     const [cart,setCart] = useState([]);
     const [product,setProduct] = useState([]);
+    const [amount,setAmount] = useState(0);
     useEffect(async () => {
         var userData = JSON.parse(sessionStorage.getItem('user'));
         await setUser(userData);
@@ -164,25 +165,64 @@ function Cart({data}) {
             await axios.get(`https://thselvan1.herokuapp.com/api/cart/find/${user._id}`).then(res=>{
             var products = res.data;
             if(products){
-                var productId = products.products[0].productId;
-                var productCount = products.products[0].quantity;
-                setCart({
-                    id : productId,
-                    count : productCount
-                });
+                let cont = [];
+                products.map(item=>{
+                    var productId = item.products[0].productId;
+                    var productCount = item.products[0].quantity;
+                    let data = {
+                        id : productId,
+                        count : productCount
+                    }
+                    cont.push(data);
+                    setCart([...cont]);
+                })
             }
         });
         }
     },[user]);
 
-    useEffect(async ()=>{
+    useEffect( ()=>{
         if(cart !== null){
-            var url = `https://thselvan1.herokuapp.com/api/product/${cart.id}`;
-            await axios.get(url).then((res)=>{
-                setProduct(res.data);
-            })  
+            let cont = [];
+            cart.map(async item=>{
+                var url = `https://thselvan1.herokuapp.com/api/product/${item.id}`;
+                await axios.get(url).then((res)=>{
+                    cont.push(res.data);
+                    setProduct([...cont]);
+                    /* product.map(item=>setAmount(amount + item.price));
+                    console.log(amount); */
+                });
+            });
         }
     },[cart]);
+
+    var getCartData = (product !== null && cart !== null) ? product.map((item,index)=>{
+        return <React.Fragment key={item._id}>
+                <Product>
+                <ProductDetail>
+                    <Image src={item.img}/>
+                    <Detail>
+                        <ProductName><b>Title :</b> {item.title}</ProductName>
+                        <ProductId><b>ID :</b> {item._id}</ProductId>
+                        <ProductColor color={item.color}/>
+                        <ProductSize><b>Size :</b> XL</ProductSize>
+                    </Detail>
+                </ProductDetail>
+                <PriceDetail>
+                    <PriceAmountContainer>
+                        <Remove/>
+                        <ProductAmount>{cart[index].count}</ProductAmount>
+                        <Add/>
+                    </PriceAmountContainer>
+                    <ProductPrice>
+                    &#8377;  {item.price}
+                    </ProductPrice>
+                </PriceDetail>
+                </Product>
+                <Hr/>
+                {/* --------- */}
+        </React.Fragment>
+    }) : null;
 
     var main = user !== null ? (<Wrapper>
         <Title>Your Cart</Title>
@@ -195,52 +235,30 @@ function Cart({data}) {
             <TopButton type='filled'>Checkout Now</TopButton>
         </Top>
         <Bottom>
-            <Info>
-                <Product>
-                <ProductDetail>
-                    <Image src={product.img}/>
-                    <Detail>
-                        <ProductName><b>Title :</b> {product.title}</ProductName>
-                        <ProductId><b>ID :</b> {product._id}</ProductId>
-                        <ProductColor color={product.color}/>
-                        <ProductSize><b>Size :</b> XL</ProductSize>
-                    </Detail>
-                </ProductDetail>
-                <PriceDetail>
-                    <PriceAmountContainer>
-                        <Remove/>
-                        <ProductAmount>{cart.count}</ProductAmount>
-                        <Add/>
-                    </PriceAmountContainer>
-                    <ProductPrice>
-                    &#8377;  {product.price}
-                    </ProductPrice>
-                </PriceDetail>
-                </Product>
-                <Hr/>
-                {/* --------- */}
-            </Info>
-            <Summary>
-                <SummaryTitle>Order Summary</SummaryTitle>
-                <SummaryItem>
-                    <SummaryItemText>Subtotal</SummaryItemText>
-                    <SummaryItemPrice>&#8377; {product.price}</SummaryItemPrice>
-                </SummaryItem>
-                <SummaryItem>
-                    <SummaryItemText>Estimated Shipping</SummaryItemText>
-                    <SummaryItemPrice>&#8377; 55.90</SummaryItemPrice>
-                </SummaryItem>
-                <SummaryItem>
-                    <SummaryItemText>Shipping Discount</SummaryItemText>
-                    <SummaryItemPrice>&#8377; -45.90</SummaryItemPrice>
-                </SummaryItem>
-                <SummaryItem type='total'>
-                    <SummaryItemText>Total</SummaryItemText>
-                    <SummaryItemPrice>&#8377; {product.price + 50}</SummaryItemPrice>
-                </SummaryItem>
-                <SummaryButton>CheckOut Now</SummaryButton>
-            </Summary>
-        </Bottom>
+        <Info>
+        {getCartData}
+        </Info>
+        <Summary>
+        <SummaryTitle>Order Summary</SummaryTitle>
+        <SummaryItem>
+            <SummaryItemText>Subtotal</SummaryItemText>
+            <SummaryItemPrice>&#8377; {amount}</SummaryItemPrice>
+        </SummaryItem>
+        <SummaryItem>
+            <SummaryItemText>Estimated Shipping</SummaryItemText>
+            <SummaryItemPrice>&#8377; 55.90</SummaryItemPrice>
+        </SummaryItem>
+        <SummaryItem>
+            <SummaryItemText>Shipping Discount</SummaryItemText>
+            <SummaryItemPrice>&#8377; -45.90</SummaryItemPrice>
+        </SummaryItem>
+        <SummaryItem type='total'>
+            <SummaryItemText>Total</SummaryItemText>
+            <SummaryItemPrice>&#8377; {amount + 50}</SummaryItemPrice>
+        </SummaryItem>
+        <SummaryButton>CheckOut Now</SummaryButton>
+    </Summary>
+    </Bottom>
     </Wrapper>) : (<Wrapper><p style={{textAlign:"center"}}>You can <Link to='/login'>Login here</Link> to see your products</p></Wrapper>);
 
     return (

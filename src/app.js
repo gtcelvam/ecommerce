@@ -13,8 +13,6 @@ function App(props) {
     const [user, setUser] = useState({})
     useEffect(() => {
        Object.keys(data).length > 0 && setUser(data);
-        var  value = sessionStorage.getItem('user');
-        console.log(JSON.parse(value));
     }, []);
 
     return (

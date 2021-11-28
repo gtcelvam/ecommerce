@@ -69,10 +69,6 @@ var MenuItem = styled.div`
     cursor:pointer;
 `;
 /* Right Ends Here */
-var handleLogout = ()=>{
-    sessionStorage.removeItem('user');
-    window.location = "/"
-}
 /* Styled Components Ends Here */
 
 function NavBar(props) {
@@ -81,7 +77,15 @@ function NavBar(props) {
     useEffect(async () => {
         var userData = JSON.parse(sessionStorage.getItem('user'));
         return name ? await setUser(name) : userData ? await setUser(userData) : null;
-    }, [])
+    }, []);
+
+    /* Funtions*/
+    var handleLogout = ()=>{
+        sessionStorage.removeItem('user');
+        window.location = "/"
+    }
+    /* Funtions End Here */
+    
     return (
         <div>
             <Nav>
