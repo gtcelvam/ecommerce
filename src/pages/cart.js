@@ -189,12 +189,24 @@ function Cart({data}) {
                 await axios.get(url).then((res)=>{
                     cont.push(res.data);
                     setProduct([...cont]);
-                    /* product.map(item=>setAmount(amount + item.price));
-                    console.log(amount); */
-                });
+                })
             });
         }
     },[cart]);
+
+    useEffect(() => {
+        if(product !== null){
+            var int = 0;
+            new Promise((res)=>{
+            product.map(item=>{
+                int = int + item.price;
+                });
+            res(int)
+            }).then(res=>{
+                setAmount(res);
+            })
+        }
+    }, [product])
 
     var getCartData = (product !== null && cart !== null) ? product.map((item,index)=>{
         return <React.Fragment key={item._id}>

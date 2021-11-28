@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
+import Navbar from '../components/Navbar';
 import axios from 'axios';
-import {Button} from '@material-ui/core';
+/* import {Button} from '@material-ui/core'; */
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import '../css/login.css';
@@ -18,7 +19,8 @@ var Container = styled.div`
     var FormContainer = styled.div`
         margin:auto;
         width:30%;
-        height:50vh;
+        padding:1% 0;
+        max-height:50vh;
         display:flex;
         flex-direction:column;
         align-items:center;
@@ -64,7 +66,16 @@ var Container = styled.div`
         border-color:white;
         &:focus{
             outline:none;
+            background-color:white;
         }
+    `
+    var Button = styled.button`
+        width:100%;
+        padding:2% 5vw;
+        background-color:black;
+        color:white;
+        font-weight:600;
+        border:none;
     `
 
 function Login(props) {
@@ -106,12 +117,11 @@ function Login(props) {
         },3000)
     }
     var navigate = useNavigate();
-    var handleLogin = ()=>{
+    var handleLogin = (e)=>{
+        e.preventDefault();
         var name = document.getElementById("name").value;
         var password = document.getElementById("password").value;
-        if(name === "" || password === ''){
-            alert("No Value should be Empty!");
-        }else{
+        if(name !== "" || password !== ''){
             var loginData = {
                 name : name,
                 password : password
@@ -126,8 +136,9 @@ function Login(props) {
                     
                 }
             })
+        }else{
+            return alert("No Value should be Empty!");
         }
-        
     }
 
 
@@ -143,6 +154,7 @@ function Login(props) {
     /* Function Part End Here*/
     return (
         <div className='container-fluid'>
+            <Navbar/>
             <AlertContainer className='alert-container'>
                 <div className={alertData.alertType} role="alert">
                 {alertData.message}

@@ -1,15 +1,10 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
-import {Button} from '@material-ui/core';
+import Navbar from '../components/Navbar';
+/* import {Button} from '@material-ui/core'; */
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import '../css/login.css';
-
-var Container = styled.div`
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-    `
     var AlertContainer = styled.div`
         display:flex;
         flex-direction:column;
@@ -51,20 +46,38 @@ var Container = styled.div`
         flex-direction:column;
     `;
 
+    var Container = styled.div`
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+    `
+
     var Label = styled.label`
         font-size:1.5rem;
         display:flex;
         flex-direction:column;
         margin:5px 0;
+        width:100%;
     `
     var Input = styled.input`
+        padding-left:1%;
         font-size:1.4rem;
         background-color: rgba(255, 255, 255, 0.5);
         border-width:0 0 1px 0;
         border-color:white;
         &:focus{
             outline:none;
+            background-color:white;
         }
+    `
+
+    var Button = styled.button`
+        width:100%;
+        padding:2% 5vw;
+        background-color:black;
+        color:white;
+        font-weight:600;
+        border:none;
     `
 
 function Register() {
@@ -136,6 +149,7 @@ function Register() {
     /* Function Part End Here*/
     return (
         <div className='container-fluid'>
+            <Navbar/>
             <AlertContainer className='alert-container'>
                 <div class={alertData.alertType} role="alert">
                 {alertData.message}
@@ -154,7 +168,7 @@ function Register() {
                     <Label><span>Email</span><Input id='email' type='email' required/></Label>
                     <Label><span>Password</span><Input id='password' type='password' required/></Label>
                     <div>
-                    <Button variant="contained" color="primary" onClick={handleRegister}>Register</Button>
+                    <Button onClick={handleRegister}>Sign Up Now!</Button>
                     </div>
                     </Container>
                 </form>
