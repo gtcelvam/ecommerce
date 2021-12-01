@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
+import axios from 'axios';
 import {Search, ShoppingCartOutlined} from "@material-ui/icons";
 import Badge from "@material-ui/core/Badge"
 import styled from 'styled-components';
@@ -74,10 +75,20 @@ var MenuItem = styled.div`
 function NavBar(props) {
     const {name} = props;
     const [user, setUser] = useState({});
+    const [cartCount,setCartCount] = useState(0);
     useEffect(async () => {
         var userData = JSON.parse(sessionStorage.getItem('user'));
         return name ? await setUser(name) : userData ? await setUser(userData) : null;
     }, []);
+
+    useEffect(async ()=>{
+        if(user !== null){
+            await axios.get(`https://thselvan1.herokuapp.com/api/cart/find/${user._id}`).then(res=>{
+            var products = res.data;
+            setCartCount(products.length);
+        });
+        }
+    },[user]);
 
     /* Funtions*/
     var handleLogout = ()=>{
@@ -117,7 +128,7 @@ function NavBar(props) {
                 }
                 <Link to="/cart">
                     <MenuItem>
-                    <Badge badgeContent={4} color="primary"><ShoppingCartOutlined color="action" /></Badge>
+                    <Badge badgeContent={cartCount !== 0 ? cartCount : null} color="primary"><ShoppingCartOutlined color="action" /></Badge>
                     </MenuItem>
                 </Link>
                 </NavRight>

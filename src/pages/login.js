@@ -18,7 +18,7 @@ var Container = styled.div`
 
     var FormContainer = styled.div`
         margin:auto;
-        width:30%;
+        width:25%;
         padding:1% 0;
         max-height:50vh;
         display:flex;
@@ -54,7 +54,7 @@ var Container = styled.div`
     `;
 
     var Label = styled.label`
-        font-size:1.5rem;
+        font-size:1rem;
         display:flex;
         flex-direction:column;
         margin:5px 0;
@@ -67,6 +67,9 @@ var Container = styled.div`
         &:focus{
             outline:none;
             background-color:white;
+        }
+        &::placeholder{
+            font-size:0.8vw;
         }
     `
     var Button = styled.button`
@@ -169,8 +172,8 @@ function Login(props) {
                 <FormBody>
                 <form method='POST'>
                     <Container>
-                    <Label><span>Username</span><Input id='name'/></Label>
-                    <Label><span>Password</span><Input id='password' type='password'/></Label>
+                    <Label><span>Username</span><Input id='name' placeholder='Username'/></Label>
+                    <Label><span>Password</span><Input id='password' placeholder='Password' type='password'/></Label>
                     <div>
                     <Button variant="outlined" color="primary" onClick={handleLogin}>Log in</Button>
                     </div>

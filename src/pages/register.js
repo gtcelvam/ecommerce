@@ -12,7 +12,7 @@ import '../css/login.css';
 
     var FormContainer = styled.div`
         margin:auto;
-        width:30%;
+        width:25%;
         height:50vh;
         display:flex;
         flex-direction:column;
@@ -53,7 +53,7 @@ import '../css/login.css';
     `
 
     var Label = styled.label`
-        font-size:1.5rem;
+        font-size:1rem;
         display:flex;
         flex-direction:column;
         margin:5px 0;
@@ -68,6 +68,9 @@ import '../css/login.css';
         &:focus{
             outline:none;
             background-color:white;
+        }
+        &::placeholder{
+            font-size:0.8vw;
         }
     `
 
@@ -164,9 +167,9 @@ function Register() {
                 <FormBody>
                 <form method='POST' id='register-form'>
                     <Container>
-                    <Label><span>Username</span><Input id='name' required/></Label>
-                    <Label><span>Email</span><Input id='email' type='email' required/></Label>
-                    <Label><span>Password</span><Input id='password' type='password' required/></Label>
+                    <Label><span>Username</span><Input id='name' placeholder='Name' required/></Label>
+                    <Label><span>Email</span><Input id='email' placeholder='Email Address' type='email' required/></Label>
+                    <Label><span>Password</span><Input id='password' placeholder='Password' type='password' required/></Label>
                     <div>
                     <Button onClick={handleRegister}>Sign Up Now!</Button>
                     </div>
