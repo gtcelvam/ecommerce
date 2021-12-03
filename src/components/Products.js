@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import Styled from 'styled-components';
 import {ShoppingCartOutlined,SearchOutlined,FavoriteBorderOutlined} from "@material-ui/icons";
 import axios from 'axios';
+import { Mobile } from '../css/responsive';
 
 var Container = Styled.div`
     width:100%;
@@ -11,6 +12,7 @@ var Container = Styled.div`
     align-items:center;
     justify-content:center;
     padding:10px;
+    ${Mobile({flexDirection:'column'})}
 `
 
 var Info = Styled.div`
@@ -41,6 +43,7 @@ var Product = Styled.div`
     &:hover ${Info}{
         opacity:1;
     }
+    ${Mobile({width:'100%'})}
 `
 
 var Circle = Styled.div`
@@ -49,6 +52,7 @@ var Circle = Styled.div`
     background-color:#FFFBEE ;
     position:absolute;
     border-radius:50%;
+    ${Mobile({width:'90%'})}
 `
 
 var Img = Styled.img`

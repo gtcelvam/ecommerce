@@ -1,5 +1,6 @@
 import React from 'react';
 import Styled from 'styled-components';
+import {Mobile} from '../css/responsive';
 
 var Container = Styled.div`
     height:3vh;
@@ -9,6 +10,7 @@ var Container = Styled.div`
     justify-content:center;
     align-items:center;
     font-weight:400;
+    ${Mobile({height:"50px",fontSize:"4vw"})}
 `
 
 function Annoucement() {

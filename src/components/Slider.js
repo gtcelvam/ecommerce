@@ -1,6 +1,7 @@
 import { ArrowLeftOutlined,ArrowRightOutlined } from '@material-ui/icons';
 import React,{useState} from 'react';
 import Styled from 'styled-components';
+import { Mobile } from '../css/responsive';
 
 var Container = Styled.div`
     width:100%;
@@ -9,6 +10,7 @@ var Container = Styled.div`
     background-color: #F6F6F6;
     position:relative;
     overflow:hidden;
+    ${Mobile({height:'30vh'})}
     `
     var Arrow = Styled.div`
         width:50px;
@@ -29,6 +31,7 @@ var Container = Styled.div`
         &:hover{
             opacity:1;
         }
+        ${Mobile({width:'30px',height:'30px'})}
     `
     
     var Wrapper = Styled.div`
@@ -36,6 +39,7 @@ var Container = Styled.div`
         height:100%;
         ${props => props.position !== props.max ? 'transition : all 1s ease-in-out' : null};
         transform:translateX(${props => props.position * -100}vw);
+        ${Mobile({height:'30vh'})}
     `
 
     var Slide = Styled.div`
@@ -44,6 +48,7 @@ var Container = Styled.div`
         display:flex;
         align-items:center;
         background-color:${props=>props.bg};
+        ${Mobile({height:'30vh'})}
     `
 
     var ImgContainer = Styled.div`
@@ -59,7 +64,7 @@ var Container = Styled.div`
     `
 
     var InfoContainer = Styled.div`
-        flex:1;
+        flex:2;
         display:flex;
         flex-direction:column;
         align-items:center;
@@ -68,12 +73,14 @@ var Container = Styled.div`
     var Title = Styled.h1`
         font-size:calc(20px + 3vw);
         font-weight:600;
+        ${Mobile({fontSize:'10px'})}
     `
     var Desc = Styled.p`
         margin:3vw 0;
         font-size:1rem;
         font-weight:600;
         letter-spacing:5px;
+        ${Mobile({fontSize:'3vw',margin:'1vw',fontWeight:'300',letterSpacing:'0',textAlign:'center'})}
     `
     var Button = Styled.button`
         padding:0 10px;
@@ -81,6 +88,7 @@ var Container = Styled.div`
         font-weight:200;
         background-color:transparent;
         cursor:pointer;
+        ${Mobile({display:'none'})}
     `
 
 function Slider() {

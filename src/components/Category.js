@@ -1,12 +1,14 @@
 import React,{useEffect, useState} from 'react';
 import Styled from 'styled-components';
 import axios from 'axios';
+import { Mobile } from '../css/responsive';
 
 var Container = Styled.div`
     display:flex;
     justify-content:space-between;
     width:100%;
     padding:10px;
+    ${Mobile({flexDirection:'column'})}
 `
 
 var CategoryContianer = Styled.div`
@@ -15,12 +17,14 @@ var CategoryContianer = Styled.div`
     justify-content:center;
     flex:1;
     position:relative;
+    ${Mobile({margin:'1% 0'})}
 `
 
 var Image = Styled.img`
     width:80%;
     height:100%;
     object-fit:cover;
+    ${Mobile({width:'90%'})}
 `
 var Info = Styled.div`
     width:100%;

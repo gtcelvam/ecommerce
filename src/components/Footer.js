@@ -1,9 +1,11 @@
 import React from 'react';
 import Styled from 'styled-components';
 import {Facebook,Instagram,Twitter,Pinterest,Room,Phone,MailOutlineOutlined} from '@material-ui/icons';
+import { Mobile } from '../css/responsive';
 
 var Container = Styled.div`
     display:flex;
+    ${Mobile({flexDirection:'column'})}
 `;
 var Left = Styled.div`
     flex:1;
@@ -12,6 +14,7 @@ var Left = Styled.div`
 var Center = Styled.div`
     flex:1;
     padding:1%;
+    ${Mobile({display:'none'})}
 `;
 var Right = Styled.div`
     flex:1;
@@ -21,6 +24,7 @@ var Right = Styled.div`
 /* Left */
 var Head = Styled.div`
     display:flex;
+    ${Mobile({justifyContent:'space-around',alignItems:'center'})}
 `
 
 var LogoContainer = Styled.div`
@@ -30,6 +34,7 @@ var LogoContainer = Styled.div`
 
 var Title = Styled.h1`
     margin:0 1%;
+    ${Mobile({fontSize:'1rem'})}
     font-weight:500;
 `
 
@@ -39,9 +44,11 @@ var Logo = Styled.img`
 `;
 var Desc = Styled.p`
     margin:2% 0;
+    ${Mobile({fontSize:'0.5rem',textAlign:'center'})}
 `;
 var SocialContainer = Styled.div`
     display:flex;
+    ${Mobile({justifyContent:'center'})}
 `;
 var SocialIcon = Styled.div`
     margin-right:2%;
@@ -53,6 +60,7 @@ var SocialIcon = Styled.div`
     display:flex;
     align-items:center;
     justify-content:center;
+    ${Mobile({width:'10vw',height:'10vw'})}
 `
 /* Left Ends Here */
 
@@ -77,17 +85,21 @@ var ListItems = Styled.li`
 /* Center Ends Here */
 
 /* Right */
-var ContactTitle = Styled.h1``;
+var ContactTitle = Styled.h1`
+    ${Mobile({fontSize:'1rem',textAlign:'center'})}
+`;
 
 var ContactItem = Styled.div`;
     margin:1% 0;
     display:flex;
     align-items:center;
     padding:1% 0;
+    ${Mobile({fontSize:'0.8rem',display:'flex',justifyContent:'center'})}
 `;
 
 var Payment = Styled.img`
     width:50%;
+    ${Mobile({width:'100%'})}
 `
 /* Right Ends Here */
 

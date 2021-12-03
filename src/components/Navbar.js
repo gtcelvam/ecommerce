@@ -4,6 +4,7 @@ import axios from 'axios';
 import {Search, ShoppingCartOutlined} from "@material-ui/icons";
 import Badge from "@material-ui/core/Badge"
 import styled from 'styled-components';
+import { Mobile } from '../css/responsive';
 
 /* Styled Components */
 var Nav = styled.nav``
@@ -14,6 +15,7 @@ var NavWrapper = styled.div`
     align-items:center;
     padding: 0.5vw 1vw; 
     overflow:hidden;
+    ${Mobile({padding:"5vw 1vw"})}
 `
 /* Left */
 var NavLeft = styled.div`
@@ -21,7 +23,9 @@ var NavLeft = styled.div`
     display:flex;
     align-items:center;
 `;
-var Language = styled.span``;
+var Language = styled.span`
+    ${Mobile({display:"none"})}
+`;
 
 var SearchContainer = styled.div`
     margin-left:10px;
@@ -29,6 +33,7 @@ var SearchContainer = styled.div`
     align-items:center;
     border:0.5px solid lightgrey;
     padding:5px;
+    ${Mobile({marginLeft:'0px'})}
 `;
 var NavInput = styled.input`
     font-size:1vw;
@@ -48,6 +53,7 @@ margin:auto;
 width:5vw;
 height:auto;
 cursor:pointer;
+${Mobile({width:"15vw"})}
 `
 var NavImage = styled.img`
     width:100%;
@@ -105,7 +111,7 @@ function NavBar(props) {
                     <Language>EN</Language>
                     <SearchContainer>
                         <NavInput/>
-                        <Search style={{color:"gray",fontSize:16}}/>
+                        <Search style={{color:"gray",fontSize:16}} placeholder='Search'/>
                     </SearchContainer>
                 </NavLeft>
                 <NavCenter>
