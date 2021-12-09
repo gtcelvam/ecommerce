@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react';
 import Styled from 'styled-components';
 import axios from 'axios';
 import { Mobile } from '../css/responsive';
+import {Link} from 'react-router-dom';
 
 var Container = Styled.div`
     display:flex;
@@ -62,12 +63,14 @@ function Category() {
             setCategory(res.data);
         })
     }, []);
-    var result = category.map(item=>{
+    var result = category.map((item,index)=>{
         return <CategoryContianer key={item._id}>
                 <Image src={item.img}/>
                 <Info>
                     <Title>{item.title}</Title>
+                    <Link to={`productlist/${item.category[index]}`}>
                     <Button>Shop Here</Button>
+                    </Link>
                 </Info>
                 </CategoryContianer>
     });

@@ -5,6 +5,7 @@ import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import '../css/login.css';
+import { Mobile } from '../css/responsive';
 
 var Container = styled.div`
         display:flex;
@@ -27,6 +28,7 @@ var Container = styled.div`
         justify-content:center;
         background-color: rgba(255, 255, 255, 0.5);
         border-radius:10px;
+        ${Mobile({width:"100%",padding:'5% 0'})}
     `
 
     var FormHead = styled.div`
@@ -64,13 +66,16 @@ var Container = styled.div`
         background-color: rgba(255, 255, 255, 0.5);
         border-width:0 0 1px 0;
         border-color:white;
+        ${Mobile({padding:'1%',borderRadius:'5px'})}
         &:focus{
             outline:none;
             background-color:white;
         }
         &::placeholder{
             font-size:0.8vw;
+            ${Mobile({fontSize:'1rem'})}
         }
+        
     `
     var Button = styled.button`
         width:100%;
@@ -79,6 +84,7 @@ var Container = styled.div`
         color:white;
         font-weight:600;
         border:none;
+        ${Mobile({padding:'2% 10vw'})}
     `
 
 function Login(props) {

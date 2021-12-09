@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import { Add, Remove } from '@material-ui/icons';
 import { CardContent } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { Mobile } from '../css/responsive';
 
 var Container = Styled.div``;
 
@@ -18,6 +19,7 @@ var Wrapper = Styled.div`
 var Title = Styled.h1`
     font-weight:300;
     text-align:center;
+    ${Mobile({fontSize:'small'})}
 `;
 
 var Top = Styled.div`
@@ -25,6 +27,7 @@ var Top = Styled.div`
     align-items:center;
     justify-content:space-between;
     padding:1%;
+    ${Mobile({flexDirection:'column'})}
 `;
 
 var TopButton = Styled.button`
@@ -34,9 +37,12 @@ var TopButton = Styled.button`
     border: ${props=>props.type === 'filled' ? 'none' : '1px solid black'};
     background-color:${props=>props.type === 'filled' ? 'black' : 'transparent'};
     color:${props=>props.type === 'filled' && 'white'};
+    ${Mobile({padding:'5px 10px'})}
 `
 
-var TopTexts = Styled.div``
+var TopTexts = Styled.div`
+    ${Mobile({display:'flex',width:'100%',justifyContent:'space-between'})}
+`
 
 var TopText = Styled.span`
     text-decoration : underline;
@@ -49,6 +55,7 @@ var TopText = Styled.span`
 var Bottom = Styled.div`
     display:flex;
     justify-content:space-between;
+    ${Mobile({flexDirection:'column'})}
 `;
 var Info = Styled.div`
     flex:3;
@@ -64,15 +71,18 @@ var Summary = Styled.div`
 var Product = Styled.div`
     display:flex;
     justify-content:space-between;
+    ${Mobile({flexDirection:'column'})}
 `;
 
 var ProductDetail = Styled.div`
     flex:2;
     display:flex;
+    ${Mobile({justifyContent:'space-between'})}
 `;
 
 var Image = Styled.img`
     width:7vw;
+    ${Mobile({flex:'1',width:'8vw'})}
 `;
 
 var Detail = Styled.div`
@@ -80,6 +90,7 @@ var Detail = Styled.div`
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+    ${Mobile({fontSize:'4vw',justifyContent:'center'})}
 `;
 
 var ProductName = Styled.span``;
@@ -91,6 +102,7 @@ var ProductColor = Styled.div`
     height:1.5vw;
     border-radius:50%;
     background-color:${props=>props.color};
+    ${Mobile({width:'5vw',height:'5vw'})}
 `;
 
 var ProductSize = Styled.span``;
@@ -101,6 +113,7 @@ var PriceDetail = Styled.div`
     flex-direction:column;
     align-items:center;
     justify-content:center;
+    ${Mobile({flexDirection:'row',justifyContent:'space-between',padding:'0 10px'})}
 `;
 
 var PriceAmountContainer = Styled.div`
@@ -112,11 +125,13 @@ var PriceAmountContainer = Styled.div`
 var ProductAmount = Styled.div`
     font-size:1.5vw;
     margin:0 1%;
+    ${Mobile({fontSize:'5vw'})}
 `;
 
 var ProductPrice = Styled.div`
     font-size:2vw;
     font-weight:500;
+    ${Mobile({fontSize:'5vw'})}
 `;
 
 var Hr = Styled.hr`
@@ -138,9 +153,13 @@ var SummaryItem = Styled.div`
     font-size:${props=>props.type === "total" && "2vw"};
 `;
 
-var SummaryItemText = Styled.span``;
+var SummaryItemText = Styled.span`
+${Mobile({fontSize:'5vw'})}
+`;
 
-var SummaryItemPrice = Styled.span``;
+var SummaryItemPrice = Styled.span`
+${Mobile({fontSize:'5vw'})}
+`;
 
 var SummaryButton = Styled.button`
     width:100%;
@@ -265,8 +284,8 @@ function Cart({data}) {
             <SummaryItemPrice>&#8377; -45.90</SummaryItemPrice>
         </SummaryItem>
         <SummaryItem type='total'>
-            <SummaryItemText>Total</SummaryItemText>
-            <SummaryItemPrice>&#8377; {amount + 50}</SummaryItemPrice>
+            <SummaryItemText style={{fontWeight:'600'}}>Total</SummaryItemText>
+            <SummaryItemPrice style={{fontWeight:'600'}}>&#8377; {amount + 50}</SummaryItemPrice>
         </SummaryItem>
         <SummaryButton>CheckOut Now</SummaryButton>
     </Summary>

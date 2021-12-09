@@ -75,15 +75,44 @@ var Icon = Styled.div`
     }
 `
 
-function Products() {
+function Products({cat,filter,sort}) {
     const [item, setItem] = useState([]);
+    const [filteredItem,setFilteredItem] = useState([]);
     useEffect(() => {
-        axios.get("https://thselvan1.herokuapp.com/api/product").then(res=>{
-            setItem(res.data);
-        });
-    }, [])
+        var getProduct = async ()=>{
+            try {
+                axios.get( cat ? `https://thselvan1.herokuapp.com/api/product?category=${cat}` : 'https://thselvan1.herokuapp.com/api/product').then(res=>{
+                    setItem(res.data);
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getProduct();
+    }, [cat]);
 
-    var setProducts = item.map(element=>{
+    useEffect(()=>{
+        cat && setFilteredItem(
+            item.filter(item=> Object.entries(filter).every(([key,value])=>item[key].includes(value)))
+        )
+    },[cat,filter,item]);
+
+    useEffect(()=>{
+        switch (sort) {
+            case 'newest':
+                setFilteredItem(prev=>[...prev].sort((a,b)=> parseInt(a.createdAt) - parseInt(b.createdAt)));
+                break;
+            case 'asc' :
+                setFilteredItem(prev=>[...prev].sort((a,b)=>a.price - b.price));
+                break;
+            case 'desc' : 
+                setFilteredItem(prev=>[...prev].sort((a,b)=>b.price - a.price));
+            default:
+                break;
+        }
+    },[sort])
+
+    var setProducts = cat ?  filteredItem.map(element=>{
         return <Product key={element._id}>
             <Circle/>
             <Img src={element.img}/>
@@ -94,7 +123,19 @@ function Products() {
                 </Link>
                 <Icon><FavoriteBorderOutlined/></Icon>
             </Info>
-        </Product>
+        </Product> 
+    }) : item.slice(0,8).map(element=>{
+        return <Product key={element._id}>
+            <Circle/>
+            <Img src={element.img}/>
+            <Info>
+                <Icon><ShoppingCartOutlined/></Icon>
+                <Link to={`/product/${element._id}`} style={{color:'black',textDecoration:'none'}}>
+                <Icon><SearchOutlined/></Icon>
+                </Link>
+                <Icon><FavoriteBorderOutlined/></Icon>
+            </Info>
+        </Product> 
     });
 
     return (

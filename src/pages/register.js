@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import '../css/login.css';
+import { Mobile } from '../css/responsive';
     var AlertContainer = styled.div`
         display:flex;
         flex-direction:column;
@@ -20,6 +21,7 @@ import '../css/login.css';
         justify-content:center;
         background-color: rgba(255, 255, 255, 0.5);
         border-radius:10px;
+        ${Mobile({width:"100%",padding:'5% 0',minHeight:'60vh'})}
     `
 
     var FormHead = styled.div`
@@ -65,12 +67,14 @@ import '../css/login.css';
         background-color: rgba(255, 255, 255, 0.5);
         border-width:0 0 1px 0;
         border-color:white;
+        ${Mobile({padding:'1%',borderRadius:'5px'})}
         &:focus{
             outline:none;
             background-color:white;
         }
         &::placeholder{
             font-size:0.8vw;
+            ${Mobile({fontSize:'1rem'})}
         }
     `
 
@@ -81,6 +85,7 @@ import '../css/login.css';
         color:white;
         font-weight:600;
         border:none;
+        ${Mobile({padding:'2% 10vw'})}
     `
 
 function Register() {

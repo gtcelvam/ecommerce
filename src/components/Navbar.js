@@ -36,11 +36,14 @@ var SearchContainer = styled.div`
     ${Mobile({marginLeft:'0px'})}
 `;
 var NavInput = styled.input`
-    font-size:1vw;
-    border:none;    
+    font-size:1rem;
+    border:none; 
+    background-color:transparent;   
     &:focus{
         outline: none;
+        background-color:white;
     }
+    ${Mobile({fontSize:'10px',padding:'2% 1%'})}
 `
 
 /* Left Ends Here */

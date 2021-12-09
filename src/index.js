@@ -17,7 +17,7 @@ function Index() {
     return(
        <Router>
        <Routes>
-        <Route path="/" element={<App data={data}/>} />
+        <Route path="/" exact element={<App data={data}/>} />
        </Routes>
        <Routes>
         <Route path="/login" element={<Login userData={userData}/>} />
@@ -26,7 +26,7 @@ function Index() {
         <Route path="/register" element={<Register/>} />
        </Routes>
        <Routes>
-        <Route path="/productlist" element={<ProductList data={data}/>} />
+        <Route path="/productlist/:category" element={<ProductList data={data}/>} />
        </Routes>
        <Routes>
         <Route path="/product/:id" element={<Product data={data}/>} />

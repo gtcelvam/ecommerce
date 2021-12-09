@@ -7,12 +7,14 @@ import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import {useParams,useNavigate} from "react-router-dom";
 import { Add, Remove } from '@material-ui/icons';
+import { Mobile } from '../css/responsive';
 
 var Container = Styled.div``;
 
 var Wrapper = Styled.div`
     padding:5%;
     display:flex;
+    ${Mobile({flexDirection:'column'})}
 `;
 
 var ImgContainer = Styled.div`
@@ -23,6 +25,7 @@ var Image = Styled.img`
     width:100%;
     height:90vh;
     object-fit:cover;
+    ${Mobile({height:'50vh'})}
 `;
 
 var InfoContainer = Styled.div`
@@ -32,15 +35,18 @@ var InfoContainer = Styled.div`
 
 var Title = Styled.h1`
     font-weight: 200;
+    ${Mobile({fontSize:'1rem',fontWeight:'600'})}
 `;
 
 var Desc = Styled.p`
     margin:2% 0;
+    ${Mobile({fontSize:'3vw'})}
 `;
 
 var Price = Styled.span`
     font-size:1.5vw;
     font-weight:100;
+    ${Mobile({fontSize:'4vw',fontWeight:'600'})}
 `;
 
 var FilterContainer = Styled.div`
@@ -48,6 +54,7 @@ var FilterContainer = Styled.div`
     display:flex;
     align-items:center;
     justify-content:space-between;
+    ${Mobile({width:'100%'})}
 `
 var Filter = Styled.div`
     display:flex;
@@ -58,6 +65,7 @@ var FilterTitle = Styled.p`
     font-size:1vw;
     margin-bottom:0;
     margin-right:1vw;
+    ${Mobile({fontSize:'5vw'})}
 `
 var FilterColor = Styled.span`
     margin:0 1%;
@@ -66,6 +74,7 @@ var FilterColor = Styled.span`
     border-radius:50%;
     background-color:${props=>props.bg};
     cursor:pointer;
+    ${Mobile({width:'5vw',height:'5vw'})}
 `
 
 var FilterSize = Styled.select``;
@@ -78,6 +87,7 @@ var AddContainer = Styled.div`
     justify-content:space-between;
     align-items:center;
     padding:1% 0;
+    ${Mobile({width:'100%'})}
 `;
 
 var AmountContainer = Styled.div`
@@ -94,6 +104,7 @@ var Amount = Styled.span`
     display:flex;
     align-items:center;
     justify-content:center;
+    ${Mobile({width:'5vw',height:'5vw',padding:'10px'})}
 `;
 
 var Button = Styled.button`
@@ -105,6 +116,7 @@ var Button = Styled.button`
     padding:1% 2%;
     font-size:14px;
     cursor:pointer;
+    ${Mobile({width:'40vw',height:'30px'})}
     &:hover{
         background-color:#00787E;
     }
