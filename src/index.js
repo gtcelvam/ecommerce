@@ -1,6 +1,8 @@
 import React,{useState} from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
+import {Provider} from 'react-redux';
+import store from './redux/store';
 import App from './app';
 import Login from './pages/login';
 import Register from './pages/register';
@@ -39,4 +41,4 @@ function Index() {
 }
 
 var root = document.getElementById('root');
-ReactDOM.render(<Index/>,root);
+ReactDOM.render(<Provider store={store}><Index/></Provider>,root);

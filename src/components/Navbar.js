@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
+import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {Search, ShoppingCartOutlined} from "@material-ui/icons";
 import Badge from "@material-ui/core/Badge"
@@ -98,7 +99,7 @@ function NavBar(props) {
         });
         }
     },[user]);
-
+    const quantity = useSelector(state => state.cart.quantity);
     /* Funtions*/
     var handleLogout = ()=>{
         sessionStorage.removeItem('user');
@@ -137,7 +138,7 @@ function NavBar(props) {
                 }
                 <Link to="/cart">
                     <MenuItem>
-                    <Badge badgeContent={cartCount !== 0 ? cartCount : null} color="primary"><ShoppingCartOutlined color="action" /></Badge>
+                    <Badge badgeContent={quantity} color="primary"><ShoppingCartOutlined color="action" /></Badge>
                     </MenuItem>
                 </Link>
                 </NavRight>

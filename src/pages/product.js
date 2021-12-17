@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import {useParams,useNavigate} from "react-router-dom";
 import { Add, Remove } from '@material-ui/icons';
 import { Mobile } from '../css/responsive';
+import { publicRequest } from '../requestMethod';
 
 var Container = Styled.div``;
 
@@ -73,6 +74,7 @@ var FilterColor = Styled.span`
     height:1.5vw;
     border-radius:50%;
     background-color:${props=>props.bg};
+    border:1px solid gray;
     cursor:pointer;
     ${Mobile({width:'5vw',height:'5vw'})}
 `
@@ -125,26 +127,28 @@ var Button = Styled.button`
 function Product(props) {
     const [user, setUser] = useState([]);
     const [data, setData] = useState([]);
-    const [amount,setAmount] = useState(1);
+    const [quantity,setQuantity] = useState(1);
+    const [color,setColor] = useState('');
+    const [size,setSize] = useState('');
     var productLink = useParams();
+    console.log(quantity,color,size);
     useEffect(async () => {
         var userData = JSON.parse(sessionStorage.getItem('user'));
-        await setUser(userData);
-        var url = `https://thselvan1.herokuapp.com/api/product/${productLink.id}`;
-        await axios.get(url).then((res)=>{
-            setData(res.data);
-        });
-    }, []);
-    useEffect(async ()=>{
-        
-    },[]);
-
+        setUser(userData);
+        try {
+            await publicRequest.get(`/product/${productLink.id}`).then((res)=>{
+                setData(res.data);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }, [productLink.id]);
     var handleClick = (item)=>{
        if(item === 'add'){
-           setAmount(amount + 1);
+           setQuantity(quantity + 1);
        }
-       if(item === 'remove' && amount > 1){
-           setAmount(amount - 1);
+       if(item === 'remove' && quantity > 1){
+           setQuantity(quantity - 1);
        }
     }
     var navigate = useNavigate();
@@ -158,7 +162,7 @@ function Product(props) {
             userId : user._id,
             products :[{
                 productId :data._id,
-                quantity  :amount
+                quantity  :quantity
             }]
         }
         axios.post('https://thselvan1.herokuapp.com/api/cart',productData,head).then(res=>{
@@ -167,7 +171,6 @@ function Product(props) {
             }
         });
     }
-
     return (
         <Container>
             <Navbar/>
@@ -183,25 +186,23 @@ function Product(props) {
                 <FilterContainer>
                     <Filter>
                         <FilterTitle>Color</FilterTitle>
-                        <FilterColor bg='#000000'/>
-                        <FilterColor bg='#1A008F'/>
-                        <FilterColor bg='#A9A9A9'/>
+                        {data.color && data.color.map(item=>{
+                            return <FilterColor bg={item} key={item} onClick={()=>setColor(item)}/>
+                        })}
                     </Filter>
                     <Filter>
                     <FilterTitle>Size</FilterTitle>
-                    <FilterSize>
-                        <FilterSizeOption>XS</FilterSizeOption>
-                        <FilterSizeOption>S</FilterSizeOption>
-                        <FilterSizeOption>M</FilterSizeOption>
-                        <FilterSizeOption>L</FilterSizeOption>
-                        <FilterSizeOption>XL</FilterSizeOption>
+                    <FilterSize onChange={e=>setSize(e.target.value)}>
+                    {data.size && data.size.map(item=>{
+                           return <FilterSizeOption key={item}>{item}</FilterSizeOption>
+                    })}
                     </FilterSize>
                     </Filter>
                 </FilterContainer>
                 <AddContainer>
                     <AmountContainer>
                         <Remove style={{cursor:"pointer"}} onClick={()=>handleClick('remove')}/>
-                        <Amount>{amount}</Amount>
+                        <Amount>{quantity}</Amount>
                         <Add style={{cursor:"pointer"}} onClick={()=>handleClick('add')}/>
                     </AmountContainer>
                     <Button onClick={handleAddCart}>Add to Cart</Button>
