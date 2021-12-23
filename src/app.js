@@ -9,12 +9,6 @@ import Footer from './components/Footer';
 
 
 function App(props) {
-    const {data} = props;
-    const [user, setUser] = useState({})
-    useEffect(() => {
-       Object.keys(data).length > 0 && setUser(data);
-    }, []);
-
     return (
         <div>
             <Annoucement/>

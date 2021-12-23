@@ -1,6 +1,8 @@
 import React,{useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+import {logout} from '../redux/userRedux';
+import {reset} from '../redux/cartRedux';
 import axios from 'axios';
 import {Search, ShoppingCartOutlined} from "@material-ui/icons";
 import Badge from "@material-ui/core/Badge"
@@ -82,28 +84,14 @@ var MenuItem = styled.div`
 /* Right Ends Here */
 /* Styled Components Ends Here */
 
-function NavBar(props) {
-    const {name} = props;
-    const [user, setUser] = useState({});
-    const [cartCount,setCartCount] = useState(0);
-    useEffect(async () => {
-        var userData = JSON.parse(sessionStorage.getItem('user'));
-        return name ? await setUser(name) : userData ? await setUser(userData) : null;
-    }, []);
-
-    useEffect(async ()=>{
-        if(user !== null){
-            await axios.get(`https://thselvan1.herokuapp.com/api/cart/find/${user._id}`).then(res=>{
-            var products = res.data;
-            setCartCount(products.length);
-        });
-        }
-    },[user]);
+function NavBar() {
+    const userName = useSelector(state => state.user.activeUser && state.user.activeUser.name);
     const quantity = useSelector(state => state.cart.quantity);
     /* Funtions*/
+    const dispatch = useDispatch();
     var handleLogout = ()=>{
-        sessionStorage.removeItem('user');
-        window.location = "/"
+        dispatch(logout());
+        dispatch(reset());
     }
     /* Funtions End Here */
     
@@ -126,9 +114,9 @@ function NavBar(props) {
                     </Link>
                 </NavCenter>
                 <NavRight>
-                { Object.keys(user).length > 0 ? 
+                { userName ? 
                 <React.Fragment>
-                <Admin>Welcome {user.name.toUpperCase()}</Admin>
+                <Admin>Welcome {userName.toUpperCase()}</Admin>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </React.Fragment> : 
                 <React.Fragment>

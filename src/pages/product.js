@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 import Styled from 'styled-components';
 import Navbar from "../components/Navbar";
@@ -8,7 +9,8 @@ import Footer from "../components/Footer";
 import {useParams,useNavigate} from "react-router-dom";
 import { Add, Remove } from '@material-ui/icons';
 import { Mobile } from '../css/responsive';
-import { publicRequest } from '../requestMethod';
+import { publicRequest,userRequest } from '../requestMethod';
+import {productList} from '../redux/apiCall';
 
 var Container = Styled.div``;
 
@@ -125,16 +127,15 @@ var Button = Styled.button`
 `;
 
 function Product(props) {
-    const [user, setUser] = useState([]);
     const [data, setData] = useState([]);
     const [quantity,setQuantity] = useState(1);
     const [color,setColor] = useState('');
     const [size,setSize] = useState('');
     var productLink = useParams();
-    console.log(quantity,color,size);
+    var dispatch = useDispatch();
+    var navigate = useNavigate();
+    const user = useSelector(state=>state.user.activeUser);
     useEffect(async () => {
-        var userData = JSON.parse(sessionStorage.getItem('user'));
-        setUser(userData);
         try {
             await publicRequest.get(`/product/${productLink.id}`).then((res)=>{
                 setData(res.data);
@@ -151,25 +152,34 @@ function Product(props) {
            setQuantity(quantity - 1);
        }
     }
-    var navigate = useNavigate();
+    
     var handleAddCart = ()=>{
-        let head = {
-            headers: {
-                token : 'Bearer ' + user.accesstoken
-              }
-        }
-        let productData = {
-            userId : user._id,
-            products :[{
-                productId :data._id,
-                quantity  :quantity
-            }]
-        }
-        axios.post('https://thselvan1.herokuapp.com/api/cart',productData,head).then(res=>{
-            if(res.data){
-                navigate("/cart");
+        if(user){
+            let productData = {
+                userId : user._id,
+                products : [{
+                    title:data.title,
+                    categories:data.categories,
+                    productId : data._id,
+                    size,
+                    color,
+                    quantity,
+                    desc:data.desc,
+                    img:data.img,
+                    price : data.price  
+                }]
             }
-        });
+            if(size !== '' || color !== ''){
+                let userToken = user.accesstoken;
+                userRequest.post('/cart',productData,{headers : {token : `bearer ${userToken}`}}).then(res=>productList(user._id,dispatch));
+                //dispatch(addProduct({product : productData}));
+            }else{
+                alert('Size or Color is not selected')
+            }
+            
+        }else{
+            alert('You\'re not logged in');
+        }
     }
     return (
         <Container>

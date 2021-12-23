@@ -9,6 +9,7 @@ import { Add, Remove } from '@material-ui/icons';
 import { CardContent } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { Mobile } from '../css/responsive';
+import { useSelector } from 'react-redux';
 
 var Container = Styled.div``;
 
@@ -171,63 +172,18 @@ var SummaryButton = Styled.button`
 `;
 
 function Cart({data}) {
-    const [user,setUser] = useState({});
-    const [cart,setCart] = useState([]);
-    const [product,setProduct] = useState([]);
     const [amount,setAmount] = useState(0);
-    useEffect(async () => {
-        var userData = JSON.parse(sessionStorage.getItem('user'));
-        await setUser(userData);
-    }, []);
+    const user = useSelector(state=>state.user.activeUser);
+    const cart = useSelector(state=>state.cart);
     useEffect(async ()=>{
         if(user !== null){
-            await axios.get(`https://thselvan1.herokuapp.com/api/cart/find/${user._id}`).then(res=>{
-            var products = res.data;
-            if(products){
-                let cont = [];
-                products.map(item=>{
-                    var productId = item.products[0].productId;
-                    var productCount = item.products[0].quantity;
-                    let data = {
-                        id : productId,
-                        count : productCount
-                    }
-                    cont.push(data);
-                    setCart([...cont]);
-                })
-            }
-        });
+            console.log(product);
         }
     },[user]);
-
-    useEffect( ()=>{
-        if(cart !== null){
-            let cont = [];
-            cart.map(async item=>{
-                var url = `https://thselvan1.herokuapp.com/api/product/${item.id}`;
-                await axios.get(url).then((res)=>{
-                    cont.push(res.data);
-                    setProduct([...cont]);
-                })
-            });
-        }
-    },[cart]);
-
-    useEffect(() => {
-        if(product !== null){
-            var int = 0;
-            new Promise((res)=>{
-            product.map(item=>{
-                int = int + item.price;
-                });
-            res(int)
-            }).then(res=>{
-                setAmount(res);
-            })
-        }
-    }, [product])
-
-    var getCartData = (product !== null && cart !== null) ? product.map((item,index)=>{
+    const product = cart && cart.product;
+    const total = cart && cart.total;
+    var getCartData = product !== null && product.map((item,index)=>{
+        item = item[0];
         return <React.Fragment key={item._id}>
                 <Product>
                 <ProductDetail>
@@ -236,24 +192,24 @@ function Cart({data}) {
                         <ProductName><b>Title :</b> {item.title}</ProductName>
                         <ProductId><b>ID :</b> {item._id}</ProductId>
                         <ProductColor color={item.color}/>
-                        <ProductSize><b>Size :</b> XL</ProductSize>
+                        <ProductSize><b>Size :</b> {item.size}</ProductSize>
                     </Detail>
                 </ProductDetail>
                 <PriceDetail>
                     <PriceAmountContainer>
                         <Remove/>
-                        <ProductAmount>{cart[index].count}</ProductAmount>
+                        <ProductAmount>{item.quantity}</ProductAmount>
                         <Add/>
                     </PriceAmountContainer>
                     <ProductPrice>
-                    &#8377;  {item.price}
+                    &#8377;  {item.price * item.quantity}
                     </ProductPrice>
                 </PriceDetail>
                 </Product>
                 <Hr/>
                 {/* --------- */}
         </React.Fragment>
-    }) : null;
+    })
 
     var main = user !== null ? (<Wrapper>
         <Title>Your Cart</Title>
@@ -273,7 +229,7 @@ function Cart({data}) {
         <SummaryTitle>Order Summary</SummaryTitle>
         <SummaryItem>
             <SummaryItemText>Subtotal</SummaryItemText>
-            <SummaryItemPrice>&#8377; {amount}</SummaryItemPrice>
+            <SummaryItemPrice>&#8377; {total}</SummaryItemPrice>
         </SummaryItem>
         <SummaryItem>
             <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -285,7 +241,7 @@ function Cart({data}) {
         </SummaryItem>
         <SummaryItem type='total'>
             <SummaryItemText style={{fontWeight:'600'}}>Total</SummaryItemText>
-            <SummaryItemPrice style={{fontWeight:'600'}}>&#8377; {amount + 50}</SummaryItemPrice>
+            <SummaryItemPrice style={{fontWeight:'600'}}>&#8377; {total + 50}</SummaryItemPrice>
         </SummaryItem>
         <SummaryButton>CheckOut Now</SummaryButton>
     </Summary>

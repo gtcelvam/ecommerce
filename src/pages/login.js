@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
+import {login} from '../redux/apiCall';
+import {useDispatch,useSelector} from 'react-redux';
 /* import {Button} from '@material-ui/core'; */
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
@@ -15,6 +17,9 @@ var Container = styled.div`
     var AlertContainer = styled.div`
         display:flex;
         flex-direction:column;
+        color : red;
+        padding:5px 0;
+        font-size: calc(10px+1vw);
     `
 
     var FormContainer = styled.div`
@@ -84,47 +89,18 @@ var Container = styled.div`
         color:white;
         font-weight:600;
         border:none;
-        ${Mobile({padding:'2% 10vw'})}
+        ${Mobile({padding:'2% 10vw'})};
+        &:disabled{
+            background-color:gray;
+            cursor:not-allowed;
+        }
     `
 
-function Login(props) {
-    const {userData} = props;
-    const [data, setData] = useState({});
-    const [alertData,setAlert] = useState({
-       alertType : '',
-       message : '' 
-    });
-    useEffect(() => {
-        var alertContainer = document.querySelector(".alert-container");
-        alertData.alertType !== '' ? alertContainer.style.display = 'block' : alertContainer.style.display = "none";
-    }, [alertData.alertType])
-    useEffect(()=>{
-        userData(data);
-    },[data])
-    
+function Login() {
+    const dispatch = useDispatch();
+    const {isFetching,error} = useSelector(state => state.user)
 
     /* Function Part */
-    var alertFunc = (message)=>{
-        var success = ()=>{
-            setAlert({
-                alertType : 'alert alert-success',
-                message : 'Sucessfully Logged In'
-            })
-        }
-        var failure = ()=>{
-            setAlert({
-                alertType : 'alert alert-danger',
-                message : 'Name or Email is wrong'
-            })
-        }
-        message = true ? success() :  failure() ;
-        setTimeout(()=>{
-            setAlert({
-                alertType : '',
-                message : ''
-            })
-        },3000)
-    }
     var navigate = useNavigate();
     var handleLogin = (e)=>{
         e.preventDefault();
@@ -135,40 +111,15 @@ function Login(props) {
                 name : name,
                 password : password
             }
-            axios.post('https://thselvan1.herokuapp.com/api/auth/login',loginData).then(res=>{
-                try {
-                    alertFunc(true);
-                    setData(res.data);
-                    navigate('/');
-                    sessionStorage.setItem('user',JSON.stringify(res.data));
-                } catch (error) {
-                    
-                }
-            })
+            login(dispatch,loginData);
         }else{
             return alert("No Value should be Empty!");
         }
     }
-
-
-
-    /* var getAllUser = ()=>{
-        axios.get('https://thselvan1.herokuapp.com/api/user',{headers: {
-            'Content-Type': 'application/json',
-            'token' : `bearer ${data.accesstoken}`
-            }}).then(res=>{
-            console.log(res.data);
-        });
-    } */
     /* Function Part End Here*/
     return (
         <div className='container-fluid'>
             <Navbar/>
-            <AlertContainer className='alert-container'>
-                <div className={alertData.alertType} role="alert">
-                {alertData.message}
-                </div>
-            </AlertContainer>
             <FormContainer>
                 <FormHead>
                     <LogoContainer>
@@ -181,8 +132,11 @@ function Login(props) {
                     <Label><span>Username</span><Input id='name' placeholder='Username'/></Label>
                     <Label><span>Password</span><Input id='password' placeholder='Password' type='password'/></Label>
                     <div>
-                    <Button variant="outlined" color="primary" onClick={handleLogin}>Log in</Button>
+                    <Button disabled={isFetching} variant="outlined" color="primary" onClick={handleLogin}>Log in</Button>
                     </div>
+                    <AlertContainer className='alert-container'>
+                    {error && <p>Something Went Wrong...Try Again</p>}
+                     </AlertContainer>
                     </Container>
                 </form>
                 </FormBody>
