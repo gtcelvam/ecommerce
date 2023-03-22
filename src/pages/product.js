@@ -137,7 +137,7 @@ function Product(props) {
     const user = useSelector(state=>state.user.activeUser);
     useEffect(async () => {
         try {
-            await publicRequest.get(`/product/${productLink.id}`).then((res)=>{
+            await publicRequest.get(`api/product/${productLink.id}`).then((res)=>{
                 setData(res.data);
             });
         } catch (error) {
@@ -171,7 +171,7 @@ function Product(props) {
             }
             if(size !== '' || color !== ''){
                 let userToken = user.accesstoken;
-                userRequest.post('/cart',productData,{headers : {token : `bearer ${userToken}`}}).then(res=>productList(user._id,dispatch));
+                userRequest.post('/api/cart',productData,{headers : {token : `bearer ${userToken}`}}).then(res=>productList(user._id,dispatch));
                 //dispatch(addProduct({product : productData}));
             }else{
                 alert('Size or Color is not selected')

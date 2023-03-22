@@ -3,6 +3,7 @@ import Styled from 'styled-components';
 import axios from 'axios';
 import { Mobile } from '../css/responsive';
 import {Link} from 'react-router-dom';
+import { base_url } from '../requestMethod';
 
 var Container = Styled.div`
     display:flex;
@@ -59,7 +60,7 @@ var Button = Styled.button`
 function Category() {
     const [category, setCategory] = useState([]);
     useEffect(() => {
-        axios.get('https://thselvan1.herokuapp.com/api/category').then(res=>{
+        axios.get(`${base_url}api/category`).then(res=>{
             setCategory(res.data);
         })
     }, []);

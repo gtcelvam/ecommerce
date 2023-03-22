@@ -5,7 +5,7 @@ import {publicRequest} from '../requestMethod';
 export const productList = async (id,dispatch,newProduct=false)=>{
     try {
         dispatch(reset());
-        publicRequest.get(`cart/find/${id}`).then(res=>{
+        publicRequest.get(`api/cart/find/${id}`).then(res=>{
             let product = res.data;
             product.map(item=>{dispatch(addProduct(item))})
         })
@@ -17,7 +17,7 @@ export const productList = async (id,dispatch,newProduct=false)=>{
 export const login = async (dispatch,user)=>{
     dispatch(loginStart());
     try {
-        publicRequest.post('/auth/login',user).then(res=>{
+        publicRequest.post('api/auth/login',user).then(res=>{
             dispatch(loginSuccess(res.data));
             let id = res.data._id;
             productList(id,dispatch);

@@ -1,5 +1,6 @@
 import axios from 'axios';
-const base_url = 'https://thselvan1.herokuapp.com/api';
+export const base_url = 'https://ts-shopping-backend.onrender.com/';
+// const base_url = 'http://localhost:2000/api';
 
 
 export const publicRequest = axios.create({

@@ -4,6 +4,7 @@ import Styled from 'styled-components';
 import {ShoppingCartOutlined,SearchOutlined,FavoriteBorderOutlined} from "@material-ui/icons";
 import axios from 'axios';
 import { Mobile } from '../css/responsive';
+import { base_url } from '../requestMethod';
 
 var Container = Styled.div`
     width:100%;
@@ -81,7 +82,7 @@ function Products({cat,filter,sort}) {
     useEffect(() => {
         var getProduct = async ()=>{
             try {
-                axios.get( cat ? `https://thselvan1.herokuapp.com/api/product?category=${cat}` : 'https://thselvan1.herokuapp.com/api/product').then(res=>{
+                axios.get( cat ? `${base_url}api/product?category=${cat}` : base_url).then(res=>{
                     setItem(res.data);
                 });
             } catch (error) {
