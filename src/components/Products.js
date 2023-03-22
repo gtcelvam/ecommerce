@@ -5,6 +5,7 @@ import {ShoppingCartOutlined,SearchOutlined,FavoriteBorderOutlined} from "@mater
 import axios from 'axios';
 import { Mobile } from '../css/responsive';
 import { base_url } from '../requestMethod';
+import { CircularProgress } from '@material-ui/core';
 
 var Container = Styled.div`
     width:100%;
@@ -82,7 +83,7 @@ function Products({cat,filter,sort}) {
     useEffect(() => {
         var getProduct = async ()=>{
             try {
-                axios.get( cat ? `${base_url}api/product?category=${cat}` : base_url).then(res=>{
+                axios.get(cat ? `${base_url}api/product?category=${cat}` : `${base_url}api/product`).then(res => {
                     setItem(res.data);
                 });
             } catch (error) {
@@ -141,7 +142,7 @@ function Products({cat,filter,sort}) {
 
     return (
         <Container>
-            {setProducts}
+            {Boolean(item.length) ? setProducts : <CircularProgress />}
         </Container>
     )
 }
