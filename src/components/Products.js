@@ -1,11 +1,15 @@
-import React,{useEffect,useState} from 'react';
-import {Link} from "react-router-dom";
-import Styled from 'styled-components';
-import {ShoppingCartOutlined,SearchOutlined,FavoriteBorderOutlined} from "@material-ui/icons";
-import axios from 'axios';
-import { Mobile } from '../css/responsive';
-import { base_url } from '../requestMethod';
-import { CircularProgress } from '@material-ui/core';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Styled from "styled-components";
+import {
+  ShoppingCartOutlined,
+  SearchOutlined,
+  FavoriteBorderOutlined,
+} from "@material-ui/icons";
+import axios from "axios";
+import { Mobile } from "../css/responsive";
+import { base_url } from "../utils/helpers/requestMethod";
+import { CircularProgress } from "@material-ui/core";
 
 var Container = Styled.div`
     width:100%;
@@ -14,8 +18,8 @@ var Container = Styled.div`
     align-items:center;
     justify-content:center;
     padding:10px;
-    ${Mobile({flexDirection:'column'})}
-`
+    ${Mobile({ flexDirection: "column" })}
+`;
 
 var Info = Styled.div`
     position:absolute;
@@ -31,7 +35,7 @@ var Info = Styled.div`
     justify-content:center;
     opacity:0;
     transition:all 0.5s ease-in-out;
-`
+`;
 
 var Product = Styled.div`
     width:20vw;
@@ -45,8 +49,8 @@ var Product = Styled.div`
     &:hover ${Info}{
         opacity:1;
     }
-    ${Mobile({width:'100%'})}
-`
+    ${Mobile({ width: "100%" })}
+`;
 
 var Circle = Styled.div`
     width:20vw;
@@ -54,13 +58,13 @@ var Circle = Styled.div`
     background-color:#FFFBEE ;
     position:absolute;
     border-radius:50%;
-    ${Mobile({width:'90%'})}
-`
+    ${Mobile({ width: "90%" })}
+`;
 
 var Img = Styled.img`
     height:90%;
     z-index:2;
-`
+`;
 var Icon = Styled.div`
     width:40px;
     height:40px;
@@ -75,76 +79,115 @@ var Icon = Styled.div`
         background-color:#F1F1F1;
         transform:scale(1.1);
     }
-`
+`;
 
-function Products({cat,filter,sort}) {
-    const [item, setItem] = useState([]);
-    const [filteredItem,setFilteredItem] = useState([]);
-    useEffect(() => {
-        var getProduct = async ()=>{
-            try {
-                axios.get(cat ? `${base_url}api/product?category=${cat}` : `${base_url}api/product`).then(res => {
-                    setItem(res.data);
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        getProduct();
-    }, [cat]);
+function Products({ cat, filter, sort }) {
+  const [item, setItem] = useState([]);
+  const [filteredItem, setFilteredItem] = useState([]);
+  useEffect(() => {
+    var getProduct = async () => {
+      try {
+        axios
+          .get(
+            cat
+              ? `${base_url}api/product?category=${cat}`
+              : `${base_url}api/product`
+          )
+          .then((res) => {
+            setItem(res.data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProduct();
+  }, [cat]);
 
-    useEffect(()=>{
-        cat && setFilteredItem(
-            item.filter(item=> Object.entries(filter).every(([key,value])=>item[key].includes(value)))
+  useEffect(() => {
+    cat &&
+      setFilteredItem(
+        item.filter((item) =>
+          Object.entries(filter).every(([key, value]) =>
+            item[key].includes(value)
+          )
         )
-    },[cat,filter,item]);
+      );
+  }, [cat, filter, item]);
 
-    useEffect(()=>{
-        switch (sort) {
-            case 'newest':
-                setFilteredItem(prev=>[...prev].sort((a,b)=> parseInt(a.createdAt) - parseInt(b.createdAt)));
-                break;
-            case 'asc' :
-                setFilteredItem(prev=>[...prev].sort((a,b)=>a.price - b.price));
-                break;
-            case 'desc' : 
-                setFilteredItem(prev=>[...prev].sort((a,b)=>b.price - a.price));
-            default:
-                break;
-        }
-    },[sort])
+  useEffect(() => {
+    switch (sort) {
+      case "newest":
+        setFilteredItem((prev) =>
+          [...prev].sort(
+            (a, b) => parseInt(a.createdAt) - parseInt(b.createdAt)
+          )
+        );
+        break;
+      case "asc":
+        setFilteredItem((prev) => [...prev].sort((a, b) => a.price - b.price));
+        break;
+      case "desc":
+        setFilteredItem((prev) => [...prev].sort((a, b) => b.price - a.price));
+      default:
+        break;
+    }
+  }, [sort]);
 
-    var setProducts = cat ?  filteredItem.map(element=>{
-        return <Product key={element._id}>
-            <Circle/>
-            <Img src={element.img}/>
+  var setProducts = cat
+    ? filteredItem.map((element) => {
+        return (
+          <Product key={element._id}>
+            <Circle />
+            <Img src={element.img} />
             <Info>
-                <Icon><ShoppingCartOutlined/></Icon>
-                <Link to={`/product/${element._id}`} style={{color:'black',textDecoration:'none'}}>
-                <Icon><SearchOutlined/></Icon>
-                </Link>
-                <Icon><FavoriteBorderOutlined/></Icon>
+              <Icon>
+                <ShoppingCartOutlined />
+              </Icon>
+              <Link
+                to={`/product/${element._id}`}
+                style={{ color: "black", textDecoration: "none" }}
+              >
+                <Icon>
+                  <SearchOutlined />
+                </Icon>
+              </Link>
+              <Icon>
+                <FavoriteBorderOutlined />
+              </Icon>
             </Info>
-        </Product> 
-    }) : item.slice(0,8).map(element=>{
-        return <Product key={element._id}>
-            <Circle/>
-            <Img src={element.img}/>
+          </Product>
+        );
+      })
+    : item.slice(0, 8).map((element) => {
+        return (
+          <Product key={element._id}>
+            <Circle />
+            <Img src={element.img} />
             <Info>
-                <Icon><ShoppingCartOutlined/></Icon>
-                <Link to={`/product/${element._id}`} style={{color:'black',textDecoration:'none'}}>
-                <Icon><SearchOutlined/></Icon>
-                </Link>
-                <Icon><FavoriteBorderOutlined/></Icon>
+              <Icon>
+                <ShoppingCartOutlined />
+              </Icon>
+              <Link
+                to={`/product/${element._id}`}
+                style={{ color: "black", textDecoration: "none" }}
+              >
+                <Icon>
+                  <SearchOutlined />
+                </Icon>
+              </Link>
+              <Icon>
+                <FavoriteBorderOutlined />
+              </Icon>
             </Info>
-        </Product> 
-    });
+          </Product>
+        );
+      });
 
-    return (
-        <Container>
-            {Boolean(item.length) ? setProducts : <CircularProgress />}
-        </Container>
-    )
+  return (
+    <Container>
+      {Boolean(item.length) ? setProducts : <CircularProgress />}
+    </Container>
+  );
 }
 
-export default Products
+export default Products;

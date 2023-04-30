@@ -1,17 +1,17 @@
-import React,{useEffect, useState} from 'react';
-import Styled from 'styled-components';
-import axios from 'axios';
-import { Mobile } from '../css/responsive';
-import {Link} from 'react-router-dom';
-import { base_url } from '../requestMethod';
+import React, { useEffect, useState } from "react";
+import Styled from "styled-components";
+import axios from "axios";
+import { Mobile } from "../css/responsive";
+import { Link } from "react-router-dom";
+import { base_url } from "../utils/helpers/requestMethod";
 
 var Container = Styled.div`
     display:flex;
     justify-content:space-between;
     width:100%;
     padding:10px;
-    ${Mobile({flexDirection:'column'})}
-`
+    ${Mobile({ flexDirection: "column" })}
+`;
 
 var CategoryContianer = Styled.div`
     height:60vh;
@@ -19,15 +19,15 @@ var CategoryContianer = Styled.div`
     justify-content:center;
     flex:1;
     position:relative;
-    ${Mobile({margin:'1% 0'})}
-`
+    ${Mobile({ margin: "1% 0" })}
+`;
 
 var Image = Styled.img`
     width:80%;
     height:100%;
     object-fit:cover;
-    ${Mobile({width:'90%'})}
-`
+    ${Mobile({ width: "90%" })}
+`;
 var Info = Styled.div`
     width:100%;
     position:absolute;
@@ -37,13 +37,13 @@ var Info = Styled.div`
     flex-direction:column;
     align-items:center;
     justify-content:center;
-`
+`;
 var Title = Styled.h1`
     font-weight:600;
     color:white;
     margin-bottom:1rem;
     text-shadow:0 0 10px black;
-`
+`;
 var Button = Styled.button`
     border:none;
     background-color:white;
@@ -55,31 +55,29 @@ var Button = Styled.button`
         color:black;
         border:1px solid black;
     }
-`
+`;
 
 function Category() {
-    const [category, setCategory] = useState([]);
-    useEffect(() => {
-        axios.get(`${base_url}api/category`).then(res=>{
-            setCategory(res.data);
-        })
-    }, []);
-    var result = category.map((item,index)=>{
-        return <CategoryContianer key={item._id}>
-                <Image src={item.img}/>
-                <Info>
-                    <Title>{item.title}</Title>
-                    <Link to={`productlist/${item.category[index]}`}>
-                    <Button>Shop Here</Button>
-                    </Link>
-                </Info>
-                </CategoryContianer>
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    axios.get(`${base_url}api/category`).then((res) => {
+      setCategory(res.data);
     });
+  }, []);
+  var result = category.map((item, index) => {
     return (
-        <Container>
-            {result}
-        </Container>
-    )
+      <CategoryContianer key={item._id}>
+        <Image src={item.img} />
+        <Info>
+          <Title>{item.title}</Title>
+          <Link to={`productlist/${item.category[index]}`}>
+            <Button>Shop Here</Button>
+          </Link>
+        </Info>
+      </CategoryContianer>
+    );
+  });
+  return <Container>{result}</Container>;
 }
 
-export default Category
+export default Category;
