@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import '../css/login.css';
 import { Mobile } from '../css/responsive';
+import { base_url } from '../requestMethod';
     var AlertContainer = styled.div`
         display:flex;
         flex-direction:column;
@@ -140,7 +141,7 @@ function Register() {
             email:email.value,
             password : password
         }
-        axios.post('https://thselvan1.herokuapp.com/api/auth/register',registerData).then(res=>{
+        axios.post(`${base_url}api/auth/register`,registerData).then(res=>{
             try {
                 alertFunc(true);
                 var inputTags = form.querySelectorAll('input');
